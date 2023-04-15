@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Sign Up Page</title>
+    <link rel="stylesheet" href="{% static 'stylesSignup.css' %}">
+
+    <link href="https://api.mapbox.com/mapbox-gl-js/v2.8.2/mapbox-gl.css" rel="stylesheet">
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.8.2/mapbox-gl.js"></script>
+    <style>
+    body { margin: 0; padding: 0; }
+    #map { position: absolute; top: 300px; bottom: 10px; width: 400px;left: 100px; }
+    </style>
+  </head>
+
+  <body>
+
+    <style>
+      .coordinates {
+      background: rgba(0, 0, 0, 0.5);
+      color: #fff;
+      position: absolute;
+      bottom: 40px;
+      left: 10px;
+      padding: 5px 10px;
+      margin: 0;
+      font-size: 11px;
+      line-height: 18px;
+      border-radius: 3px;
+      display: none;
+      }
+      </style>
+
+      
+      <div class="center"> 
+    
+
+      <h1>SignUp</h1>
+      <form name ="form" method="post">
+        {% csrf_token %}
+        <div class="txt_field">
+          <input type="text" class="form-control" id="" placeholder="" name="name" required>
+          <span></span>
+          <label>Name</label>
+        </div>
+        <div class="txt_field">
+          <input type="text" class="form-control" id="" placeholder="" name="address" required>
+          <span></span>
+          <label>Address</label>
+        </div>
+        <div class="txt_field">
+          <input type="number" class="form-control" id="" placeholder="" name="nid" required>
+          <span></span>
+          <label>NID</label>
+        </div>
+        <div class="txt_field">
+          <input type="date" class="form-control" id="" placeholder="" name="date_of_birth" required>
+          <span></span>
+          <label>Date of Birth</label>
+        </div>
+        <div class="txt_field">
+            <input type="text" class="form-control" id="" placeholder="" name="UserID" required>
+            <span></span>
+            <label>User Name</label>
+        </div>
+        <div class="txt_field">
+            
+            <input type="text" class="form-control" id="" placeholder="" name="email" required>
+            <span></span>
+            <label>Email</label>
+        </div>
+        <div class="txt_field">
+                
+                <input type="text" class="form-control" id="" placeholder="" name="flat_no" required>
+                <span></span>
+                <label for="">Flat Number</label>
+        </div>
+        <div class="txt_field">
+                
+                <input type="password" class="form-control" id="" placeholder="" name="User_Password" required>
+                <span></span>
+                <label>Password</label>
+        </div>
+        <p> Select your location from map</P>
+        <div class="form-group">
+          <input type="text" class="form-control" id="exampleFormControlInput1"  name="long"><br>
+        </div>
+        <div class="form-group">
+          <input type="text" class="form-control" id="exampleFormControlInput1"  name="lat"><br>
+        </div>
+        <br>
+          <input type="submit" value="Submit">
+        </div>
+        <div id="map"  ></div>
+      <pre id="coordinates" class="coordinates"></pre>
+      
+        <script>
+          mapboxgl.accessToken = 'pk.eyJ1Ijoid2FzaTAwMDA3IiwiYSI6ImNsMmxkc2J0bTFnODgzY2x3ZWx4NXd1OXMifQ.o9Tr7BRTeDo-C45jjo810A';
+          const coordinates = document.getElementById('coordinates');
+          const map = new mapboxgl.Map({
+            container: 'map',
+            style: 'mapbox://styles/mapbox/streets-v11',
+            center: [90.399452, 23.777176],
+            zoom: 2
+          });
+        
+          var marker = new mapboxgl.Marker({
+            draggable: true
+          })
+          .setLngLat([90.399452, 23.777176])
+          .addTo(map);
+          function onDragEnd() {
+            const lngLat = marker.getLngLat();
+            coordinates.style.display = 'block';
+            coordinates.innerHTML = `longitude: ${lngLat.lng}<br />latitude: ${lngLat.lat}`;
+            document.forms["form"]["long"].value = lngLat.lng;
+            document.forms["form"]["lat"].value = lngLat.lat;
+          }
+          marker.on('dragend', onDragEnd);
+        </script>
+      </form>
+	<script src="index.js"></script>
+  </body>
+</html>
+
+
+
+

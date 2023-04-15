@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Organization Page</title>
+    <link rel="stylesheet" href="style.css">
+    <head>
+
+        <style>
+            table {
+        border: 1px solid #ccc;
+        border-collapse: collapse;
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        table-layout: fixed;
+      }
+      
+      table caption {
+        font-size: 1.5em;
+        margin: .5em 0 .75em;
+      }
+      
+      table tr {
+        background-color: #f8f8f8;
+        border: 1px solid #ddd;
+        padding: .35em;
+      }
+      
+      table th,
+      table td {
+        padding: .625em;
+        text-align: center;
+      }
+      
+      table th {
+        font-size: .85em;
+        letter-spacing: .1em;
+        text-transform: uppercase;
+      }
+      
+      @media screen and (max-width: 600px) {
+        table {
+          border: 0;
+        }
+      
+        table caption {
+          font-size: 1.3em;
+        }
+        
+        table thead {
+          border: none;
+          clip: rect(0 0 0 0);
+          height: 1px;
+          margin: -1px;
+          overflow: hidden;
+          padding: 0;
+          position: absolute;
+          width: 1px;
+        }
+        
+        table tr {
+          border-bottom: 3px solid #ddd;
+          display: block;
+          margin-bottom: .625em;
+        }
+        
+        table td {
+          border-bottom: 1px solid #ddd;
+          display: block;
+          font-size: .8em;
+          text-align: right;
+        }
+        
+        table td::before {
+          content: attr(data-label);
+          float: left;
+          font-weight: bold;
+          text-transform: uppercase;
+        }
+        
+        table td:last-child {
+          border-bottom: 0;
+        }
+      }
+      body {
+        font-family: "Open Sans", sans-serif;
+        line-height: 1.25;
+      }
+      </style>
+    </head>
+    <body>
+            {% if data %}
+
+<table>
+          <caption>Hospital Information</caption>
+          <tr>
+            <th>Name</th>
+            <td>
+              {{data.Name}}
+            </td>
+          </tr>
+          <tr>
+            <th>Address</th>
+            <td>
+              {{data.Address}}
+            </td>
+          </tr>
+          <tr>
+            <th>Number of Vaccines Per day</th>
+            <td>
+              {{data.Number_of_Vaccine_Per_Day}}
+            </td>
+          </tr>
+          <tr>
+            <tr>
+              <th>Vaccine</th>
+              <td>
+                {{data.Vaccine}}
+              </td>
+            </tr>
+            <th>Email</th>
+            <td>
+              {{data.email}}
+            </td>
+          </tr>
+          <tr>
+            <th>Seat Capacity of Covid Testing</th>
+            <td>
+              {{data.Seat_Capacity_For_COVID_Testing}}
+            </td>
+          </tr>
+        </table>
+
+            <div align = "center">
+            <p>Update Number of Vaccine:</p>
+            <form action="Update_Number_of_Vaccine/" method = "post">
+                {% csrf_token %}
+                <div class="form-group">
+                    <input type="number" class="form-control" id="Number_of_Vaccine_Per_Day" placeholder="Number_of_Vaccine_Per_Day" name="Number_of_Vaccine_Per_Day" required>
+                </div>
+                <br>
+                <button type="submit"> Update vaccine capacity</button>
+            </form>
+            
+            <p>Update Vaccine Name:</p>
+            <form action="Update_Vaccine/" method = "post">
+                {% csrf_token %}
+                <div class="form-group">
+                    <input type="text" class="form-control" id="Vaccine" placeholder="Vaccine" name="Vaccine" required>
+                </div>
+                <br>
+                <button type="submit"> Update vaccine </button>
+            </form>
+        
+            <p>Update Number of Test capacity:</p>
+            <form action="Update_Covid_Testing_Capacity/" method = "post">
+                {% csrf_token %}
+                <div class="form-group">
+                    <input type="number" class="form-control" id="test_Per_Day" placeholder="test_Per_Day" name="test_Per_Day" required>
+                </div>
+                <br>
+                <button type="submit"> Update test capacity</button>
+            </form>
+            </div>
+            <br>
+            <br>
+            <div align = "center">
+                <caption><b>Update User Covid Result:</b></caption>
+                <table>
+                    <tr>
+                        <th>
+                            Name
+                        </th>
+                        <th>
+                            NID
+                        </th>
+                        <th>
+                            Date of Birth
+                        </th>
+                        <th>
+                            Address
+                        </th>
+                        <th>
+                            Covid Status
+                        </th>
+                        <th>
+                            Update Covid Result
+                        </th>
+                        <th>
+                            Update Covid Test Date
+                        </th>
+                    </tr>
+
+                    {% for user in posts4 %}
+                        <tr>
+                            <form action='Update_User_Test_Result/' method = "post">
+                                {% csrf_token %}
+                                <td>{{user.name}}</td>    <td>{{user.nid}}</td>  <td>{{user.date_of_birth}}</td>
+                                    <td>{{user.address}}</td> <td>{{user.Covid_Status}}</td>
+                                <td>
+                                <input type="hidden" id="nid" name="nid" value={{user.nid}} required>
+                                <br>
+                                <div class="form-group">
+                                    <select id="covid_status" name="covid_status">
+                                        <option value="True">True</option>
+                                        <option value="False">False</option>
+                                    </select>
+                                </div>
+                                <br>
+                                <button type="submit"> Update Covid Result</button>
+                            </td>
+                            </form>
+                            <td>
+                            <form action='Update_User_Test_date/' method = "post">
+                                {% csrf_token %}
+                                <input type="hidden" id="nid" name="nid" value={{user.nid}} required>
+                                <br>
+                                <div class="form-group">
+                                    <input type="date" id="covid_date" name="covid_date"  required>
+                                </div>
+                                <br>
+                                <button type="submit"> Update Covid Test Date</button>
+                            </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+
+                </table>
+            </div>
+            
+            <br>
+            <br>
+            <br>
+
+            <div align = "center">
+                <caption><b>Update User Vaccine Status:</b></caption>
+                <table>
+                    <tr>
+                        <th>
+                            Name
+                        </th>
+                        <th>
+                            NID
+                        </th>
+                        <th>
+                            Date of Birth
+                        </th>
+                        <th>
+                            Vaccine Status
+                        </th>
+                        <th>
+                            First Dose Date
+                        </th>
+                        <th>
+                            Second Dose Date
+                        </th>
+                        <th>
+                            Third Dose Date
+                        </th>
+                        <th>
+                            Vaccine Status
+                        </th>
+                    </tr>
+                    {% for user in post1 %}
+                        <tr>
+                            <form action='Update_User_Vaccine_Info/' method = "post">
+                                {% csrf_token %}
+                                <td>{{user.name}}</td>    <td>{{user.nid}}</td>   <td>{{user.date_of_birth}}</td> <td>{{user.Vaccine_status}}</td>
+                                <td> {{user.Frist_Dose}}</td> <td>{{user.Second_Dose}}</td> <td>{{user.Third_Dose}}</td>
+                                <td>
+                                <input type="hidden" id="nid" name="nid" value={{user.nid}} required>
+                                <br>
+                                <div class="form-group">
+                                    <select id="vaccine_status" name="vaccine_status">
+                                        <option value="No Vaccine">No Vaccine</option>
+                                        <option value="1st dose done">1st dose done</option>
+                                        <option value="2nd dose done">2nd dose done</option>
+                                        <option value="3rd dose done">3rd dose done</option>
+                                    </select>
+                                </div>
+                                <br>
+                                <button type="submit"> Update vaccine status </button>
+                                </td>
+                            </form>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+                    
+        
+        {% else %}
+        <p>Wrong NID/Password/Both!!!!!!!!!! Try Again</p>
+        {% endif %}
+        
+        <div align = "center">
+            <button type="submit"><a href="http://127.0.0.1:8000/">Logout</a></button>
+        </div>
+        
+    </body>
+</html>

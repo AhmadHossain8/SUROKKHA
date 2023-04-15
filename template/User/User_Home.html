@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>User Page</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+      table {
+  border: 1px solid #ccc;
+  border-collapse: collapse;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  table-layout: fixed;
+}
+
+table caption {
+  font-size: 1.5em;
+  margin: .5em 0 .75em;
+}
+
+table tr {
+  background-color: #f8f8f8;
+  border: 1px solid #ddd;
+  padding: .35em;
+}
+
+table th,
+table td {
+  padding: .625em;
+  text-align: center;
+}
+
+table th {
+  font-size: .85em;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+
+@media screen and (max-width: 600px) {
+  table {
+    border: 0;
+  }
+
+  table caption {
+    font-size: 1.3em;
+  }
+  
+  table thead {
+    border: none;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+  }
+  
+  table tr {
+    border-bottom: 3px solid #ddd;
+    display: block;
+    margin-bottom: .625em;
+  }
+  
+  table td {
+    border-bottom: 1px solid #ddd;
+    display: block;
+    font-size: .8em;
+    text-align: right;
+  }
+  
+  table td::before {
+    content: attr(data-label);
+    float: left;
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+  
+  table td:last-child {
+    border-bottom: 0;
+  }
+}
+body {
+  font-family: "Open Sans", sans-serif;
+  line-height: 1.25;
+}
+</style>
+  </head>
+  <body>
+        {% if data %}
+        <table>
+          <caption>User Information</caption>
+          <tr>
+            <th>Name</th>
+            <td>
+              {{data.name}}
+            </td>
+          </tr>
+          <tr>
+            <th>NID</th>
+            <td>
+              {{data.nid}}
+            </td>
+          </tr>
+          <tr>
+            <th>Date of Birth</th>
+            <td>
+              {{data.date_of_birth}}
+            </td>
+          </tr>
+          <tr>
+            <tr>
+              <th>Address</th>
+              <td>
+                {{data.address}}
+              </td>
+            </tr>
+            <th>Flat number</th>
+            <td>
+              {{data.flat_no}}
+            </td>
+          </tr>
+          <tr>
+            <th>Covid Status</th>
+            <td>
+              {{data.covid_status}}
+            </td>
+          </tr>
+          <tr>
+            <th>Covid Vaccine Status</th>
+            <td>
+              {{data.vaccine_status}}
+            </td>
+          </tr>
+          <tr>
+            <th>Covid Test Date</th>
+            <td>
+              {{data.covid_test_date}}
+            </td>
+          </tr>
+          <tr>
+            <th>First Dose</th>
+            <td>
+              {{data.first_dose}}
+            </td>
+          </tr>
+          <tr>
+            <th>Second Dose</th>
+            <td>
+              {{data.second_dose}}
+            </td>
+          </tr>
+          <tr>
+            <th>Third Dose</th>
+            <td>
+              {{data.third_dose}}
+            </td>
+          </tr>
+        </table>
+        <div align="center">
+          <p>Get your vaccination info.</p>
+            <a class="btn btn-info" href="pdf" target="_blank">View Your Vaccine Info</a>
+            <a class="btn btn-info"  href="download">Download Your Certificate</a> 
+            <p>To get Quarantine recommendation, upload an CSV file here
+              N.B. The CSV file must contain "NID" in 1 column.
+            </p>
+        </div>
+            <form action="user_status/" method="POST" enctype="multipart/form-data" class="form-horizontal"> 
+              {% csrf_token %}
+              <div class="form-group" align="center">
+                  <label for="name" class="col-md-3 col-sm-3 col-xs-12 control-label">File: </label>
+                  <div class="col-md-8">
+                      <input type="file" name="csv_file" id="csv_file" required="True" class="form-control">
+                  </div>                    
+              </div>
+              <div class="form-group" align="center">                    
+                  <div class="col-md-3 col-sm-3 col-xs-12 col-md-offset-3" style="margin-bottom:10px;">
+                       <button class="btn btn-primary"> <span class="glyphicon glyphicon-upload" style="margin-right:5px;"></span>Upload </button>
+                  </div> 
+              </div>
+              </form>
+              <p align="center">To apply for Covid Test, select a Hospital</p>
+            <form action = 'Apply_Test/' method = 'POST' align="center">{% csrf_token %}
+              <select  name="hos_test" class="form-control">
+                {% for name in hospital_name %}
+                <option value="{{name}}" selected="selected">{{name}}</option>
+                {% endfor %}
+              </select>
+              <div class="form-group" align="center">                    
+                <div class="col-md-3 col-sm-3 col-xs-12 col-md-offset-3" style="margin-bottom:10px;">
+                     <button class="btn btn-primary"> <span class="glyphicon glyphicon-upload" style="margin-right:5px;"></span>Apply for Test</button>
+                </div> 
+              </div>
+            </form>
+            <p align="center">To apply for Vaccination, select a Hospital</p>
+            <form action = 'Apply_Vaccine/' method = 'POST' align="center">{% csrf_token %}
+              <select  name="hos_vaccine" class="form-control">
+                {% for name in hospital_name %}
+                <option value="{{name}}" selected="selected">{{name}}</option>
+                {% endfor %}
+              </select>
+              <div class="form-group" align="center">                    
+                <div class="col-md-3 col-sm-3 col-xs-12 col-md-offset-3" style="margin-bottom:10px;">
+                     <button class="btn btn-primary"> <span class="glyphicon glyphicon-upload" style="margin-right:5px;"></span>Apply for Vaccine</button>
+                </div> 
+              </div>
+            </form>
+        {% else %}
+        <p>Wrong NID/Password/Both!!!!!!!!!! Try Again</p>
+        {% endif %}
+        <div align="center">
+        <button type="submit" ><a href="http://127.0.0.1:8000/">Logout</a></button>
+      </div>
+	<script src="index.js"></script>
+  </body>
+</html>

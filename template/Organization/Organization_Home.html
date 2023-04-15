@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Organization Page</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+      table {
+  border: 1px solid #ccc;
+  border-collapse: collapse;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  table-layout: fixed;
+}
+
+table caption {
+  font-size: 1.5em;
+  margin: .5em 0 .75em;
+}
+
+table tr {
+  background-color: #f8f8f8;
+  border: 1px solid #ddd;
+  padding: .35em;
+}
+
+table th,
+table td {
+  padding: .625em;
+  text-align: center;
+}
+
+table th {
+  font-size: .85em;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+
+@media screen and (max-width: 600px) {
+  table {
+    border: 0;
+  }
+
+  table caption {
+    font-size: 1.3em;
+  }
+  
+  table thead {
+    border: none;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+  }
+  
+  table tr {
+    border-bottom: 3px solid #ddd;
+    display: block;
+    margin-bottom: .625em;
+  }
+  
+  table td {
+    border-bottom: 1px solid #ddd;
+    display: block;
+    font-size: .8em;
+    text-align: right;
+  }
+  
+  table td::before {
+    content: attr(data-label);
+    float: left;
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+  
+  table td:last-child {
+    border-bottom: 0;
+  }
+}
+body {
+  font-family: "Open Sans", sans-serif;
+  line-height: 1.25;
+}
+</style>
+
+  </head>
+<body>
+        {% if posts %}
+
+        {% for i in posts %}
+        <table>
+          <caption>Organization Information</caption>
+          <tr>
+            <th>Name</th>
+            <td>
+              {{i.organization_name}}
+            </td>
+          </tr>
+          <tr>
+            <th>Address</th>
+            <td>
+              {{i.organization_address}}
+            </td>
+          </tr>
+          </table>
+          <div align="center">
+            <form action="user_status" method="POST" enctype="multipart/form-data" class="form-horizontal"> 
+              {% csrf_token %}
+              <div class="form-group">
+                  <label for="name" class="col-md-3 col-sm-3 col-xs-12 control-label">File: Please Upload file <br></label>
+                  
+                  <div class="col-md-8">
+                      <input type="file" name="csv_file" id="csv_file" required="True" class="form-control">
+                  </div>                    
+              </div>
+              <div class="form-group">                    
+                  <div class="col-md-3 col-sm-3 col-xs-12 col-md-offset-3" style="margin-bottom:10px;">
+                       <button class="btn btn-primary"> <span class="glyphicon glyphicon-upload" style="margin-right:5px;"></span>Upload </button>
+                  </div> 
+              </div>
+              </form>
+            </div>
+    
+
+        {% endfor %}
+        {% else %}
+        <p>Wrong Organization Name/Password/Both!!!!!!!!!! Try Again</p>
+        {% endif %}
+        <div align="center">
+        <button type="submit"><a href="http://127.0.0.1:8000/">Logout</a></button></div>
+	<script src="index.js"></script>
+  </body>
+</html>

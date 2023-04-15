@@ -1,0 +1,149 @@
+<head>
+  <style>
+table {
+border: 1px solid #ccc;
+border-collapse: collapse;
+margin: 0;
+padding: 0;
+width: 100%;
+table-layout: fixed;
+}
+
+table caption {
+font-size: 1.5em;
+margin: .5em 0 .75em;
+}
+
+table tr {
+background-color: #f8f8f8;
+border: 1px solid #ddd;
+padding: .35em;
+}
+
+table th,
+table td {
+padding: .625em;
+text-align: center;
+}
+
+table th {
+font-size: .85em;
+letter-spacing: .1em;
+text-transform: uppercase;
+}
+
+@media screen and (max-width: 600px) {
+table {
+  border: 0;
+}
+
+table caption {
+  font-size: 1.3em;
+}
+
+table thead {
+  border: none;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+}
+
+table tr {
+  border-bottom: 3px solid #ddd;
+  display: block;
+  margin-bottom: .625em;
+}
+
+table td {
+  border-bottom: 1px solid #ddd;
+  display: block;
+  font-size: .8em;
+  text-align: right;
+}
+
+table td::before {
+  content: attr(data-label);
+  float: left;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+table td:last-child {
+  border-bottom: 0;
+}
+}
+  </style>
+  </head>
+  
+  <body>
+      <div align="center"> <caption ><b>User Covid Vaccination Certificate</b></caption>
+      
+      <table>
+        <caption align="center"><b>User Information</b></caption>
+        <tr>
+          <th>Name</th>
+          <td>
+            {{name}}
+          </td>
+        </tr>
+        <tr>
+          <th>NID</th>
+          <td>
+            {{nid}}
+          </td>
+        </tr>
+        <tr>
+          <th>Date of Birth</th>
+          <td>
+            {{date_of_birth}}
+          </td>
+        </tr>
+        <tr>
+          <tr>
+            <th>Address</th>
+            <td>
+              {{address}}
+            </td>
+          </tr>
+          <th>Flat number</th>
+          <td>
+            {{flat_no}}
+          </td>
+        </tr>
+        <tr>
+          <th>Covid Status</th>
+          <td>
+            {{covid_status}}
+          </td>
+        </tr>
+        <tr>
+          <th>Covid Vaccine Status</th>
+          <td>
+            {{vaccine_status}}
+          </td>
+        </tr>
+        <tr>
+          <th>First Dose</th>
+          <td>
+            {{First_Dose}}
+          </td>
+        </tr>
+        <tr>
+          <th>Second Dose</th>
+          <td>
+            {{Second_Dose}}
+          </td>
+        </tr>
+        <tr>
+          <th>Third Dose</th>
+          <td>
+            {{Third_Dose}}
+          </td>
+        </tr>
+      </table></div>
+  </body>
+  </html>
